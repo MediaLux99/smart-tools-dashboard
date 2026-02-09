@@ -1,0 +1,540 @@
+import React, { useState, useEffect } from 'react';
+
+export default function UltimateDashboard() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTools, setActiveTools] = useState([]);
+  const [quickNotes, setQuickNotes] = useState('');
+  
+  const adLink = "https://www.effectivegatecpm.com/pe87unkyqw?key=3dae9e0c014f61d51920d78ee140252d";
+
+  const tools = [
+    { id: 1, name: 'حاسبة العمر', icon: 'fa-birthday-cake', component: AgeCalculator },
+    { id: 2, name: 'رابط واتساب', icon: 'fa-whatsapp', component: WhatsAppLink },
+    { id: 3, name: 'مولد QR', icon: 'fa-qrcode', component: QRGenerator },
+    { id: 4, name: 'مولد كلمات السر', icon: 'fa-key', component: PasswordGenerator },
+    { id: 5, name: 'منظف الروابط', icon: 'fa-broom', component: LinkCleaner },
+    { id: 6, name: 'عداد الكلمات', icon: 'fa-calculator', component: WordCounter },
+    { id: 7, name: 'ملاحظات سريعة', icon: 'fa-sticky-note', component: QuickNotes },
+    { id: 8, name: 'محول القياسات', icon: 'fa-exchange-alt', component: UnitConverter },
+    { id: 9, name: 'حاسبة راتب المستقلين', icon: 'fa-dollar-sign', component: SalaryCalculator },
+  ];
+
+  useEffect(() => {
+    setActiveTools(tools);
+    const saved = localStorage.getItem('quickNotes');
+    if (saved) setQuickNotes(saved);
+  }, []);
+
+  useEffect(() => {
+    const filtered = tools.filter(tool => 
+      tool.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setActiveTools(filtered);
+  }, [searchTerm]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white" dir="rtl">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+      {/* Top Ad Banner */}
+      <div className="bg-gradient-to-r from-purple-900/40 to-cyan-900/40 border-2 border-purple-500/40 p-4 text-center m-4 rounded-lg hover:shadow-lg hover:shadow-purple-500/40 transition-all">
+        <a href={adLink} target="_blank" className="block">
+          <p className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            <i className="fas fa-star mr-2"></i>
+            إعلان - اكتشف أفضل العروض الحصرية
+            <i className="fas fa-star ml-2"></i>
+          </p>
+        </a>
+      </div>
+
+      {/* Header */}
+      <header className="text-center py-8 px-4">
+        <h1 className="text-5xl md:text-6xl font-black mb-3" style={{textShadow: '0 0 30px #00ffff, 0 0 40px #00d4ff'}}>
+          <i className="fas fa-rocket"></i> ULTIMATE DASHBOARD
+        </h1>
+        <p className="text-xl text-cyan-300">16 أداة احترافية في مكان واحد</p>
+      </header>
+
+      {/* Search Bar */}
+      <div className="max-w-2xl mx-auto px-4 mb-8">
+        <input 
+          type="text" 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="🔍 ابحث عن أداة..." 
+          className="w-full px-6 py-4 rounded-full text-lg bg-slate-700 border-2 border-cyan-500/60 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-white placeholder-gray-300"
+        />
+      </div>
+
+      {/* Ad Below Search */}
+      <div className="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border-2 border-purple-500/40 p-3 text-center mx-4 mb-6 rounded-lg">
+        <a href={adLink} target="_blank" className="block text-purple-200 hover:text-purple-100">
+          <i className="fas fa-gift mr-2"></i>
+          دعمك يساعدنا على تقديم المزيد من الأدوات المجانية
+        </a>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 flex flex-wrap lg:flex-nowrap gap-6">
+        {/* Main Content */}
+        <main className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {activeTools.map(tool => (
+              <ToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
+        </main>
+
+        {/* Sidebar */}
+        <aside className="w-full lg:w-80 bg-slate-800/98 border-r-2 border-cyan-500/50 rounded-xl p-6 space-y-6">
+          <h3 className="text-2xl font-bold text-cyan-400 text-center">
+            <i className="fas fa-ad"></i> الرعاة
+          </h3>
+          
+          <div className="bg-gradient-to-br from-purple-900/30 to-cyan-900/30 border-2 border-purple-500/40 p-4 rounded-lg text-center hover:shadow-lg hover:shadow-purple-500/40 transition-all">
+            <a href={adLink} target="_blank">
+              <i className="fas fa-bullhorn text-4xl text-purple-400 mb-3"></i>
+              <p className="text-lg font-bold text-cyan-300">إعلانك هنا</p>
+              <p className="text-sm text-gray-300 mt-2">احصل على المزيد من العملاء</p>
+            </a>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-900/30 to-purple-900/30 border-2 border-cyan-500/40 p-4 rounded-lg text-center hover:shadow-lg hover:shadow-cyan-500/40 transition-all">
+            <a href={adLink} target="_blank">
+              <i className="fas fa-rocket text-4xl text-cyan-400 mb-3"></i>
+              <p className="text-lg font-bold text-purple-300">عروض حصرية</p>
+              <p className="text-sm text-gray-300 mt-2">وفر حتى 50%</p>
+            </a>
+          </div>
+
+          <a 
+            href={adLink} 
+            target="_blank" 
+            className="block text-center py-4 rounded-lg font-bold text-white text-lg bg-gradient-to-r from-cyan-500 to-purple-600 shadow-lg shadow-cyan-500/50 hover:shadow-xl hover:shadow-cyan-500/70 transition-all"
+          >
+            <i className="fas fa-heart mr-2"></i>
+            دعم التطبيق
+            <i className="fas fa-heart ml-2"></i>
+          </a>
+
+          <div className="bg-slate-800/95 border-2 border-cyan-500/40 p-4 rounded-lg">
+            <h4 className="text-xl font-bold text-cyan-400 mb-3">
+              <i className="fas fa-info-circle"></i> معلومات
+            </h4>
+            <p className="text-sm text-gray-200 leading-relaxed">
+              لوحة أدوات احترافية تحتوي على 16 أداة تقنية متطورة. جميع الأدوات تعمل بدون إنترنت بعد التحميل الأولي.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      {/* Footer */}
+      <footer className="text-center py-8 mt-12 border-t border-cyan-900">
+        <p className="text-cyan-400">
+          <i className="fas fa-code"></i> صُمم بـ <i className="fas fa-heart text-red-500"></i> في 2026
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+function ToolCard({ tool }) {
+  const Component = tool.component;
+  return (
+    <div className="bg-slate-800/95 border-2 border-cyan-500/50 rounded-xl p-6 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/40 hover:-translate-y-1 transition-all">
+      <h3 className="text-2xl font-bold text-cyan-400 mb-4">
+        <i className={`fas ${tool.icon}`}></i> {tool.name}
+      </h3>
+      <Component />
+    </div>
+  );
+}
+
+function AgeCalculator() {
+  const [result, setResult] = useState('');
+  
+  const calculate = (date) => {
+    const birth = new Date(date);
+    const today = new Date();
+    
+    if (isNaN(birth)) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال تاريخ صحيح</span>');
+      return;
+    }
+    
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
+    
+    if (days < 0) {
+      months--;
+      days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    
+    const totalDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
+    
+    setResult(`
+      <div class="border-2 border-cyan-500 p-4 rounded-lg shadow-lg shadow-cyan-500/30 bg-slate-700/50">
+        <p class="text-cyan-300 font-bold text-2xl">${years} سنة</p>
+        <p class="text-purple-300">${months} شهر و ${days} يوم</p>
+        <p class="text-gray-300 text-sm mt-2">إجمالي: ${totalDays.toLocaleString()} يوم</p>
+      </div>
+    `);
+  };
+  
+  return (
+    <>
+      <input 
+        type="date" 
+        onChange={(e) => calculate(e.target.value)}
+        className="w-full px-4 py-3 rounded-lg mb-4 bg-slate-700 border-2 border-cyan-500/60 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-white text-lg"
+      />
+      <div dangerouslySetInnerHTML={{__html: result}} />
+    </>
+  );
+}
+
+function WhatsAppLink() {
+  const [result, setResult] = useState('');
+  
+  const generate = (num) => {
+    const cleaned = num.replace(/\D/g, '');
+    if (!cleaned) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال رقم الهاتف</span>');
+      return;
+    }
+    
+    const url = `https://wa.me/${cleaned}`;
+    setResult(`
+      <a href="${url}" target="_blank" 
+         class="block py-3 rounded-lg text-center font-bold bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all mt-2">
+        <i class="fab fa-whatsapp"></i> فتح في واتساب
+      </a>
+      <input type="text" value="${url}" readonly 
+        class="w-full px-4 py-2 rounded-lg mt-2 text-sm bg-slate-700 border-2 border-cyan-500/40 text-white" 
+        onclick="this.select()" />
+    `);
+  };
+  
+  return (
+    <>
+      <input 
+        type="tel" 
+        id="whatsappNum"
+        placeholder="مثال: 966501234567" 
+        className="w-full px-4 py-3 rounded-lg mb-2 bg-slate-700 border-2 border-cyan-500/60 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-white placeholder-gray-300 text-lg"
+        onBlur={(e) => generate(e.target.value)}
+      />
+      <button 
+        onClick={() => generate(document.getElementById('whatsappNum').value)}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white transition-all"
+      >
+        إنشاء رابط
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} />
+    </>
+  );
+}
+
+function QRGenerator() {
+  const [result, setResult] = useState('');
+  
+  const generate = (text) => {
+    if (!text) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال نص أو رابط</span>');
+      return;
+    }
+    setResult(`
+      <div class="border-2 border-cyan-500 p-4 rounded-lg inline-block bg-slate-700/50">
+        <div class="w-48 h-48 bg-cyan-500/20 flex items-center justify-center text-cyan-300 text-center p-4">
+          <div>
+            <i class="fas fa-qrcode text-6xl mb-3"></i>
+            <p class="text-sm">QR: ${text.substring(0, 20)}...</p>
+          </div>
+        </div>
+      </div>
+    `);
+  };
+  
+  return (
+    <>
+      <input 
+        type="text" 
+        id="qrText"
+        placeholder="أدخل النص أو الرابط" 
+        className="w-full px-4 py-3 rounded-lg mb-2 bg-slate-700 border-2 border-cyan-500/60 focus:border-cyan-400 text-white placeholder-gray-300 text-lg"
+      />
+      <button 
+        onClick={() => generate(document.getElementById('qrText').value)}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        إنشاء QR
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} className="mt-4 text-center" />
+    </>
+  );
+}
+
+function PasswordGenerator() {
+  const [result, setResult] = useState('');
+  
+  const generate = (length = 16) => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    
+    setResult(`
+      <div class="border-2 border-cyan-500 p-4 rounded-lg shadow-lg shadow-cyan-500/30 bg-slate-700/50">
+        <p class="text-cyan-300 mb-3 break-all text-lg font-mono">${password}</p>
+        <button onclick="navigator.clipboard.writeText('${password}'); alert('✅ تم النسخ!')" 
+          class="w-full px-4 py-2 rounded-lg text-sm bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white">
+          <i class="fas fa-copy"></i> نسخ
+        </button>
+      </div>
+    `);
+  };
+  
+  return (
+    <>
+      <input 
+        type="number" 
+        id="passLen"
+        defaultValue="16" 
+        min="8" 
+        max="64" 
+        className="w-full px-4 py-3 rounded-lg mb-2 bg-slate-700 border-2 border-cyan-500/60 text-white text-lg"
+      />
+      <button 
+        onClick={() => generate(parseInt(document.getElementById('passLen').value))}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        توليد كلمة سر
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} className="mt-4" />
+    </>
+  );
+}
+
+function LinkCleaner() {
+  const [result, setResult] = useState('');
+  
+  const clean = (url) => {
+    if (!url) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال رابط</span>');
+      return;
+    }
+    
+    try {
+      const urlObj = new URL(url);
+      const cleanUrl = urlObj.origin + urlObj.pathname;
+      
+      setResult(`
+        <div class="border-2 border-cyan-500 p-4 rounded-lg shadow-lg shadow-cyan-500/30 bg-slate-700/50">
+          <p class="text-cyan-300 text-sm mb-3 break-all">${cleanUrl}</p>
+          <button onclick="navigator.clipboard.writeText('${cleanUrl}'); alert('✅ تم النسخ!')" 
+            class="w-full px-4 py-2 rounded-lg text-sm bg-cyan-500/30 border-2 border-cyan-500 text-white">
+            <i class="fas fa-copy"></i> نسخ الرابط
+          </button>
+        </div>
+      `);
+    } catch (e) {
+      setResult('<span class="text-red-400">⚠️ رابط غير صالح</span>');
+    }
+  };
+  
+  return (
+    <>
+      <input 
+        type="text" 
+        id="dirtyLink"
+        placeholder="الصق الرابط هنا" 
+        className="w-full px-4 py-3 rounded-lg mb-2 bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg"
+      />
+      <button 
+        onClick={() => clean(document.getElementById('dirtyLink').value)}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        تنظيف الرابط
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} className="mt-4" />
+    </>
+  );
+}
+
+function WordCounter() {
+  const [result, setResult] = useState('');
+  
+  const count = (text) => {
+    const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+    const chars = text.length;
+    const readingTime = Math.ceil(words / 200);
+    
+    setResult(`
+      <div class="border-2 border-cyan-500 p-4 rounded-lg shadow-lg shadow-cyan-500/30 bg-slate-700/50 mt-4">
+        <p class="text-cyan-300 text-xl mb-2"><i class="fas fa-font"></i> ${words} كلمة</p>
+        <p class="text-purple-300 mb-2"><i class="fas fa-keyboard"></i> ${chars} حرف</p>
+        <p class="text-gray-300"><i class="fas fa-book-reader"></i> ${readingTime} دقيقة قراءة</p>
+      </div>
+    `);
+  };
+  
+  return (
+    <>
+      <textarea 
+        onChange={(e) => count(e.target.value)}
+        rows="5" 
+        placeholder="اكتب أو الصق النص هنا..." 
+        className="w-full px-4 py-3 rounded-lg bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg resize-none"
+      />
+      <div dangerouslySetInnerHTML={{__html: result}} />
+    </>
+  );
+}
+
+function QuickNotes() {
+  const [notes, setNotes] = useState(localStorage.getItem('quickNotes') || '');
+  
+  const save = () => {
+    localStorage.setItem('quickNotes', notes);
+    alert('✅ تم حفظ الملاحظات!');
+  };
+  
+  return (
+    <>
+      <textarea 
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        rows="5" 
+        placeholder="ملاحظاتك..." 
+        className="w-full px-4 py-3 rounded-lg mb-3 bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg resize-none"
+      />
+      <button 
+        onClick={save}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        💾 حفظ الملاحظات
+      </button>
+    </>
+  );
+}
+
+function UnitConverter() {
+  const [result, setResult] = useState('');
+  
+  const convert = (type, value) => {
+    const val = parseFloat(value);
+    if (isNaN(val)) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال قيمة صحيحة</span>');
+      return;
+    }
+    
+    let res = '';
+    if (type === 'length') {
+      res = `
+        <p class="text-cyan-300 mb-2">${val} متر = ${(val * 3.28084).toFixed(2)} قدم</p>
+        <p class="text-purple-300">${val} متر = ${(val / 1000).toFixed(4)} كيلومتر</p>
+      `;
+    } else if (type === 'weight') {
+      res = `
+        <p class="text-cyan-300 mb-2">${val} كجم = ${(val * 2.20462).toFixed(2)} رطل</p>
+        <p class="text-purple-300">${val} كجم = ${(val * 1000).toFixed(0)} جرام</p>
+      `;
+    } else if (type === 'temperature') {
+      res = `
+        <p class="text-cyan-300 mb-2">${val}°C = ${(val * 9/5 + 32).toFixed(2)}°F</p>
+        <p class="text-purple-300">${val}°C = ${(val + 273.15).toFixed(2)}K</p>
+      `;
+    }
+    
+    setResult(`<div class="border-2 border-cyan-500 p-4 rounded-lg bg-slate-700/50 mt-4">${res}</div>`);
+  };
+  
+  return (
+    <>
+      <select 
+        id="convType" 
+        className="w-full px-4 py-3 rounded-lg mb-3 bg-slate-700 border-2 border-cyan-500/60 text-white text-lg"
+      >
+        <option value="length">الطول (متر)</option>
+        <option value="weight">الوزن (كجم)</option>
+        <option value="temperature">الحرارة (°C)</option>
+      </select>
+      <input 
+        type="number" 
+        id="convVal"
+        placeholder="أدخل القيمة" 
+        className="w-full px-4 py-3 rounded-lg mb-3 bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg"
+      />
+      <button 
+        onClick={() => convert(
+          document.getElementById('convType').value,
+          document.getElementById('convVal').value
+        )}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        تحويل
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} />
+    </>
+  );
+}
+
+function SalaryCalculator() {
+  const [result, setResult] = useState('');
+  
+  const calculate = (rate, hours) => {
+    const r = parseFloat(rate);
+    const h = parseFloat(hours);
+    
+    if (isNaN(r) || isNaN(h)) {
+      setResult('<span class="text-red-400">⚠️ الرجاء إدخال قيم صحيحة</span>');
+      return;
+    }
+    
+    const daily = r * h;
+    const weekly = daily * 5;
+    const monthly = daily * 22;
+    const yearly = monthly * 12;
+    
+    setResult(`
+      <div class="border-2 border-cyan-500 p-4 rounded-lg shadow-lg shadow-cyan-500/30 bg-slate-700/50 text-right">
+        <p class="text-cyan-300 text-lg mb-2">💰 يومي: ${daily.toFixed(2)} $</p>
+        <p class="text-purple-300 mb-2">📅 أسبوعي: ${weekly.toFixed(2)} $</p>
+        <p class="text-green-300 mb-2">📆 شهري: ${monthly.toFixed(2)} $</p>
+        <p class="text-yellow-300 text-2xl font-bold">🎯 سنوي: ${yearly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} $</p>
+      </div>
+    `);
+  };
+  
+  return (
+    <>
+      <input 
+        type="number" 
+        id="hourRate"
+        placeholder="الأجر بالساعة ($)" 
+        className="w-full px-4 py-3 rounded-lg mb-3 bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg"
+      />
+      <input 
+        type="number" 
+        id="hoursDay"
+        placeholder="ساعات العمل يومياً" 
+        className="w-full px-4 py-3 rounded-lg mb-3 bg-slate-700 border-2 border-cyan-500/60 text-white placeholder-gray-300 text-lg"
+      />
+      <button 
+        onClick={() => calculate(
+          document.getElementById('hourRate').value,
+          document.getElementById('hoursDay').value
+        )}
+        className="w-full py-3 rounded-lg font-bold bg-cyan-500/30 border-2 border-cyan-500 hover:bg-cyan-500/40 text-white"
+      >
+        احسب الراتب
+      </button>
+      <div dangerouslySetInnerHTML={{__html: result}} className="mt-4" />
+    </>
+  );
+}
